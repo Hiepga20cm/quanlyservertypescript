@@ -1,0 +1,23 @@
+<div class="mt-4">
+    <div class="row">
+        {{#each server}}
+        <div class="col-sm-6 col-lg-4">
+            <div class="card">
+                <a href="/server/{{this.name}}">
+                    <img class="card-img-top" src="https://freepngimg.com/thumb/server/36301-1-server-hd.png"
+                        alt="{{this.disk}}">
+                </a>
+
+                <div class="card-body">
+                    <a href="/server/{{this.name}}">
+                        <h5 class="card-title">{{this.ram}}</h5>
+                    </a>
+                    <a href="/server/{{this.name}}" class="btn btn-primary">Chi
+                        tiết</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{!-- detail server--}}

@@ -1,0 +1,28 @@
+<div class="mt-4" style="margin-left: 30px;">
+    <h3>Chỉnh sửa server</h3>
+    <form method="POST" action="/server/{{server._id}}?_method=put">
+        <!-- client sẽ chuyển đi một request post nhưng thông qua cái _method dẽ được chuyển thành put-->
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" value="{{server.name}}" id="name" name="name">
+
+        </div>
+        <div class="form-group">
+            <label for="description">Mô tả khóa học</label>
+            <input type="text" class="form-control" value="{{server.description}}" id="description" name="description">
+
+        </div>
+        <div class="form-group">
+            <label for="videoid">video Id</label>
+            <input type="text" class="form-control" value="{{server.videoid}}" id="videoid" name="videoid">
+
+        </div>
+        <div class="form-group">
+            <label for="slug">Slug</label>
+            <input type="text" class="form-control" value="{{server.slug}}" id="slug" name="slug">
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Hoàn tất</button>
+    </form>
+</div>

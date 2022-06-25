@@ -1,0 +1,23 @@
+<div class="mt-4" style="margin-left: 30px;">
+    <h3>Chỉnh sửa thông tin server</h3>
+    <form method="POST" action="/server/{{server._id}}?_method=patch">
+        <!-- client sẽ chuyển đi một request post nhưng thông qua cái _method dẽ được chuyển thành put-->
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" value="{{server.name}}" id="name" name="name">
+
+        </div>
+        <div class="form-group">
+            <label for="description">Mật khẩu</label>
+            <input type="password" class="form-control" value="{{server.password}}" id="password" name="password">
+
+        </div>
+        <!-- <div class="form-group">
+            <label for="description">Nhập lại mật khẩu</label>
+            <input type="password" class="form-control" value="{{server.password}}" id="password" name="password">
+
+        </div>-->
+
+        <button type="submit" class="btn btn-primary">Hoàn tất</button>
+    </form>
+</div>
