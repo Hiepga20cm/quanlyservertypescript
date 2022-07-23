@@ -33,10 +33,11 @@ const Server = new mongoose_1.Schema({
     status: { type: Boolean },
     ram: { type: String },
     disk: { type: String },
+    deleted: { type: Boolean, default: false }
 }, { timestamps: true });
-Server.plugin(mongooseDelete, {
-    deleteAt: true,
-    overrideMethods: 'all'
-});
+// Server.plugin(mongooseDelete, {
+//     deleteAt: true,
+//     overrideMethods: 'all'
+// });
 exports.default = mongoose_1.default.model('Server1', Server);
 //# sourceMappingURL=Server.js.map

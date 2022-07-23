@@ -5,13 +5,13 @@ import { SoftDeleteDocument, SoftDeleteModel } from 'mongoose-delete';
 
 mongoose.plugin(slug);
 
-export interface server{
+export interface server {
     name: string;
     password: string;
     status: boolean;
     ram: string;
     disk: string;
-    
+
 }
 
 
@@ -26,12 +26,13 @@ const Server: Schema = new Schema(
         status: { type: Boolean },
         ram: { type: String },
         disk: { type: String },
+        deleted: { type: Boolean, default: false }
     },
     { timestamps: true }
 );
-Server.plugin(mongooseDelete, {
-    deleteAt: true,
-    overrideMethods: 'all'
-});
+// Server.plugin(mongooseDelete, {
+//     deleteAt: true,
+//     overrideMethods: 'all'
+// });
 
 export default mongoose.model<serverModel>('Server1', Server);

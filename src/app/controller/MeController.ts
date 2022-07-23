@@ -1,22 +1,23 @@
 import { Request, Response } from "express";
 import Server from "../model/Entitys/Server";
-import mongooes from "../../ultill/mongooes"
 
-const storedServer = (req: Request, res: Response, next) => {
-    Server.find({ deleted: false })
-        .then(server => {
-            res.render('me/stored-server', { server: mongooes.mutipleMongooseToObject(server) }),
-                console.log(server)
-        })
-        .catch(next);
-
+const storedServer = async (req: Request, res: Response, next) => {
+    try {
+        const servers: any = await Server.find({ deleted: false })
+        res.status(200).json(servers);
+    } catch (err) {
+        console.log(err);
+    }
 }
-const trashServer = (req: Request, res: Response, next) => {
-    Server.find({ deleted: true })
-        .then(server => {
-            res.render('me/trash-server', { server: mongooes.mutipleMongooseToObject(server) }), console.log(server)
-        })
-        .catch(next)
+
+const trashServer = async (req: Request, res: Response, next) => {
+    try {
+        const data: any = await Server.find({ deleted: true }).exec();
+        if (!data) return res.status(404).json('No data')
+        res.status(200).json(data);
+    } catch (err) {
+        return res.status(400).json(err)
+    }
 }
 export default {
     storedServer,

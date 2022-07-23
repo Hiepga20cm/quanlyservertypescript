@@ -83,7 +83,7 @@
         //var btnDeleteCourse = document.getElementById('btn-delete-course');
 
         btnDeleteServer.onclick = function () {
-            deleteForm.action = '/server/' + id + '?_method=DELETE';
+            deleteForm.action = '/server/' + id + '/deleteindatabase?_method=DELETE';
             deleteForm.submit();
         }
         // Restore btn clicked

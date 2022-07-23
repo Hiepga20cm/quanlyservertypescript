@@ -99,9 +99,10 @@
 
 
 
-        //var btnDeleteServer = document.getElementById('btn-delete-server');
+        // var btnDeleteServer = document.getElementById('btn-delete-server');
         btnDeleteServer.onclick = function () {
             deleteForm.action = '/server/delete/' + id + '?_method=patch';
+            console.log(id);
             deleteForm.submit();
         }
 
