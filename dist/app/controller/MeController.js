@@ -33,8 +33,27 @@ const trashServer = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         return res.status(400).json(err);
     }
 });
+const searchTrash = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        try {
+            const server = yield Server_1.default.find({ name: { $regex: req.query.q }, deleted: true });
+            if (server) {
+                res.status(200).json(server);
+            }
+            else {
+                res.status(404).json('not found');
+            }
+        }
+        catch (error) {
+            res.status(404).json('not found');
+        }
+    }
+    catch (error) {
+    }
+});
 exports.default = {
     storedServer,
-    trashServer
+    trashServer,
+    searchTrash
 };
 //# sourceMappingURL=MeController.js.map

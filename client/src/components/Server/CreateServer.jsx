@@ -2,7 +2,7 @@ import { useState } from "react";
 import serverApi from "../../api/serverApi";
 import '../Server/CreateServer.css';
 import { motion } from 'framer-motion';
-//import { useNavigate } from "react-router-dom";
+import NavBar from "../layout/NavBar";
 //import'../Home/Home.css'
 const CreateServer = () => {
     const [name, setName] = useState('');
@@ -24,15 +24,25 @@ const CreateServer = () => {
     async function createServer(e) {
         e.preventDefault();
         try {
-            await serverApi.createServer({
-
+            const res = await serverApi.createServer({
                 name: name,
-                passWord: passWord,
+                password: passWord,
                 status: status,
+
+
+                
                 ram: ram,
                 disk: disk
             });
-            window.location.reload();
+            if (res === 'success') {
+                alert('Thêm server thành công');
+                window.location.reload();
+            } else {
+                alert('Thất bại');
+                window.location.reload();
+            }
+
+
         } catch (error) {
             console.log(error);
         }
@@ -43,13 +53,14 @@ const CreateServer = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 1 }}>
+
+            <NavBar />
             <div className="create-page">
                 <div className="form">
                     <form className="create-form" onSubmit={createServer}>
                         <label>Tạo mới Server</label>
-
-                        <input type="text" placeholder="Tên Server" value={name} onChange={(e) => setName(e.target.value)} />
-                        <input type="passWord" placeholder="Mật Khẩu" value={passWord} onChange={(e) => setPassWord(e.target.value)} />
+                        <input type="text" placeholder="Tên Server" value={name} required='Name is required' onChange={(e) => setName(e.target.value)} />
+                        <input type="passWord" placeholder="Mật Khẩu" required='PassWord is required' value={passWord} onChange={(e) => setPassWord(e.target.value)} />
                         <label >Trạng thái :</label>
                         <select placeholder="Trạng thái" onChange={(e) => {
                             const selectStatus = e.target.value;
@@ -60,8 +71,8 @@ const CreateServer = () => {
                                 <option value={statuss.value}>{statuss.label}</option>
                             ))}
                         </select>
-                        <input type="text" placeholder="Ram" value={ram} onChange={(e) => setRam(e.target.value)} />
-                        <input type="text" placeholder="Disk" value={disk} onChange={(e) => setDisk(e.target.value)} />
+                        <input type="text" placeholder="Ram" value={ram} required onChange={(e) => setRam(e.target.value)} />
+                        <input type="text" placeholder="Disk" value={disk} required onChange={(e) => setDisk(e.target.value)} />
 
                         <button type="onSubmit" value={'create'}  > Tạo </button>
                     </form>

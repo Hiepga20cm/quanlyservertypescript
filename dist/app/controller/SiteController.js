@@ -29,42 +29,20 @@ const home = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
 //[get]/search 
 const search = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name } = req.body;
-        const server = yield Server_1.default.find({ name: name });
-        res.status(200).json(server);
+        const server = yield Server_1.default.find({ name: { $regex: req.query.q } });
+        console.log(server);
+        if (server) {
+            res.status(200).json(server);
+        }
+        else {
+            res.status(404).json('not found');
+        }
     }
     catch (error) {
         res.status(404).json('not found');
     }
+    // console.log(req.query.q);
 });
-// const register = async (req: Request, res: Response) => {
-//     const { userName, passWord, firstName, lastName, permission } = req.body;
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPass = await bcrypt.hash(passWord, salt);
-//     const newUser = new User({
-//         userName,
-//         passWord: hashedPass,
-//         firstName,
-//         lastName,
-//         permission
-//     });
-//     try {
-//         const oldUser = await User.findOne({ userName })
-//         if (oldUser) {
-//             return res.status(400).json({ message: "username is allready registered!" });
-//         }
-//         const user = await newUser.save();
-//         const token = jwt.sign({
-//             userName: user.userName, id: user._id
-//         },
-//             "12345678",
-//             { expiresIn: '1h' }
-//         )
-//         res.status(200).json({ user, token });
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// }
 //[post]/login
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userName, passWord } = req.body;

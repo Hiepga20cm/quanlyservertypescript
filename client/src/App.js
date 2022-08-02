@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import Landing from './components/layout/Landing';
 
 import LoginForm from './components/auth/Login/LoginForm';
@@ -10,7 +10,6 @@ import EditServer from './components/Server/EditServer';
 import TrashServer from './components/Server/TrashServer';
 import ListUser from './components/user/ListUser';
 import UpdateUser from './components/user/UpdateUser';
-import authApi from './api/authApi';
 
 function App() {
   const token = localStorage.getItem('token');
@@ -22,28 +21,16 @@ function App() {
   console.log(token);
   return (
     <BrowserRouter>
-      <nav>
-        <div id='header'>
-          <ul id="nav">
-            <li><Link to='/home'>Trang chủ</Link></li>
-            <li><Link to='/createServer'>Thêm Server</Link></li>
-            <li><Link to='/server/storedServer'>Server của tôi</Link></li>
-            <li><Link to='/user'>Quản lý người dùng</Link></li>
-            <li onClick={authApi.logout} style={{color:'white'}}>Đăng xuất</li>
-          </ul>
-        </div>
-      </nav>
       <Routes>
-
         <Route path='/' element={<Landing />} />
-        <Route path='/login' element={<LoginForm />} />
+        <Route path='/login' element={!token ? <LoginForm /> : <Home/>} />
         <Route path='/register' element={token ? <RegisterForm /> : <LoginForm />} />
         <Route path='/home' element={token ? <Home /> : <LoginForm />} />
-        <Route path='/createServer' element={check ? <CreateServer /> : <LoginForm />} />
+        <Route path='/createServer' element={check ? <CreateServer /> : <Home />} />
         <Route path='/server/storedServer' element={token ? <StoredServer /> : <LoginForm />} />
         <Route path='/server/:id/edit' element={check ? <EditServer /> : <LoginForm />} />
         <Route path='/me/trash/server' element={check ? <TrashServer /> : <Home />} />
-        <Route path='/user' element={check ? <ListUser /> : <StoredServer />} />
+        <Route path='/user' element={(check&&token) ? <ListUser /> : <StoredServer />} />
         <Route path='/user/:id/update' element={check ?<UpdateUser /> : <Home/> } />
 
       </Routes>

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import userApi from '../../api/userApi';
+import NavBar from '../layout/NavBar';
 
 
 const UpdateUser = () => {
@@ -36,6 +37,7 @@ const UpdateUser = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 1 }}>
+            <NavBar />
             <div className="create-page">
                 <div className="form">
                     <form className="create-form" onSubmit={updateUser}>

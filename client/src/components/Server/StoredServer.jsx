@@ -1,12 +1,13 @@
 import React from 'react'
 import { useState } from 'react'
 import serverApi from '../../api/serverApi';
-//import Table from 'react-bootstrap/Table';
+import { FaArrowCircleUp } from 'react-icons/fa';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './StoreServer.css';
 import { motion } from 'framer-motion';
-
+import NavBar from '../layout/NavBar';
+import { Button } from '../layout/Style';
 
 
 const StoredServer = () => {
@@ -14,37 +15,34 @@ const StoredServer = () => {
   const [server, setServers] = useState([]);
   const [serverName, setServerName] = useState('');
   const [showGototop, setShowGototop] = useState(false);
+  const [trash, setTrash] = useState(false);
   let stt = 1;
+
+
   console.log(serverName);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // if (serverName === '') {
         const data = await serverApi.storedServer();
-        console.log(data);
+        const permission = localStorage.getItem('permission');
+        if (permission === 'admin') {
+          setTrash(true);
+        }
         setServers(data);
-        // } else {
-        //   const data1 = await serverApi.search({
-        //     serverName: serverName
-        //   })
-        //   console.log(data1);
-        //   setServers(data1);
-        // }
 
       } catch (err) {
         console.log(err)
       }
 
-
     }
 
     fetchData();
-  }, [])
+  }, [serverName])
 
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY >= 200) {
+      if (window.scrollY >= 300) {
         setShowGototop(true);
       } else {
         setShowGototop(false);
@@ -58,12 +56,22 @@ const StoredServer = () => {
     }
   })
 
-  const search = async () => {
-    const data1 = await serverApi.search({
-      serverName: serverName
-    })
-    console.log(data1);
-    setServers(data1);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await serverApi.search(serverName)
+      setServers(res);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -71,14 +79,16 @@ const StoredServer = () => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -100 }}
       transition={{ duration: 1 }}>
-      <h3>Server của tôi</h3>
-      <Link to="/me/trash/server">Thùng rác</Link>
+      <NavBar />
+      <h3 style={{marginTop:'90px'}}>Server của tôi</h3>
+      {trash && (
+        <Link to="/me/trash/server" >Thùng rác</Link>
+      )}
 
 
       <div class="box">
-        <form name="search" >
+        <form name="search" onSubmit={handleSearch}>
           <input type="text" class="inputsearch" placeholder='Nhập tên Server' value={serverName} onmouseout="this.value = ''; this.blur();" onChange={(e) => setServerName(e.target.value)} />
-          <button type='onSubmit' onClick={search} > Tim </button>
         </form>
       </div>
 
@@ -113,13 +123,13 @@ const StoredServer = () => {
         </tbody>
       </table>
       {showGototop && (
-        <button style={{
-          position: 'fixed',
-          right: 20,
-          botton: 20
-        }}>
-          Quay lại đầu trang
-        </button>
+        <Button>
+          <FaArrowCircleUp onClick={scrollToTop} style={{
+            position: 'fixed',
+            right: 20,
+            bottom: 20,
+          }} />
+        </Button>
       )}
     </motion.div>
   );

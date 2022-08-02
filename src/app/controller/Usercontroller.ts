@@ -76,11 +76,24 @@ const update = (req: Request, res: Response, next) => {
     }
 
 }
+const search = async (req: Request, res: Response, next) => {
+    try {
+        const user = await User.find({ userName: { $regex: req.query.q }, permission: 'user' })
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json('not found');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export default {
     register,
     deleteUser,
     update,
     updateUser,
-    getallUser
+    getallUser,
+    search
 }

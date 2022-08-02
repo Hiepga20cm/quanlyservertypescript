@@ -20,6 +20,10 @@ const userApi = {
     updateUser: async (data, id) => {
         const url = `/user/${id}/update`;
         return axiosClient.patch(url, data);
+    },
+    searchUser: async (name)=>{
+        const url = `/user/search?q=${name}`;
+        return axiosClient.get(url);
     }
 }
 

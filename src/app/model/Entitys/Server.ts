@@ -30,9 +30,5 @@ const Server: Schema = new Schema(
     },
     { timestamps: true }
 );
-// Server.plugin(mongooseDelete, {
-//     deleteAt: true,
-//     overrideMethods: 'all'
-// });
 
 export default mongoose.model<serverModel>('Server1', Server);

@@ -1,14 +1,16 @@
 import React from 'react'
 import { useState } from 'react'
 import userApi from '../../api/userApi';
-//import Table from 'react-bootstrap/Table';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-//import '../Server/StoredServer';
 import { motion } from 'framer-motion';
+import NavBar from '../layout/NavBar';
+import { Button } from '../layout/Style';
+import { FaArrowCircleUp } from 'react-icons/fa';
 
 const ListUser = () => {
     const [user, setUsers] = useState([]);
+    const [userName, setUserName] = useState([]);
     let stt = 1;
     const [showGototop, setShowGototop] = useState(false);
     useEffect(() => {
@@ -17,7 +19,7 @@ const ListUser = () => {
                 const data = await userApi.getUsers();
                 if (data) {
                     setUsers(data);
-                }else{
+                } else {
                     alert('Bạn không đủ quyền');
                 }
 
@@ -45,14 +47,39 @@ const ListUser = () => {
             window.removeEventListener('scroll', handleScroll);
         }
     })
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
 
+
+    const handleSearch = async (e) => {
+        e.preventDefault()
+        try {
+            const res = await userApi.searchUser(userName)
+            setUsers(res);
+            console.log(res);
+        } catch (err) {
+            console.log(err);
+        }
+    }
     return (
         <motion.div initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 1 }}>
-            <h3>DANH SÁCH NGƯỜI DÙNG</h3>
+            <NavBar />
+            <h3 style={{marginTop:'90px'}}>DANH SÁCH NGƯỜI DÙNG</h3>
             <Link to="/register"> Thêm người dùng</Link>
+
+            <div class="box">
+                <form name="search" onSubmit={handleSearch}>
+                    <input type="text" class="inputsearch" placeholder='Nhập tên Server' value={userName} onmouseout="this.value = ''; this.blur();" onChange={(e) => setUserName(e.target.value)} />
+                </form>
+            </div>
+
             <table className='container'>
                 <thead>
                     <tr>
@@ -83,13 +110,13 @@ const ListUser = () => {
                 </tbody>
             </table>
             {showGototop && (
-                <button style={{
-                    position: 'fixed',
-                    right: 20,
-                    botton: 20
-                }}>
-                    Quay lại đầu trang
-                </button>
+                <Button>
+                    <FaArrowCircleUp onClick={scrollToTop} style={{
+                        position: 'fixed',
+                        right: 20,
+                        bottom: 20,
+                    }} />
+                </Button>
             )}
         </motion.div>
     );

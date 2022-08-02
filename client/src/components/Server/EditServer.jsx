@@ -3,6 +3,7 @@ import { useState } from 'react';
 import serverApi from '../../api/serverApi';
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import NavBar from '../layout/NavBar';
 
 
 const EditServer = () => {
@@ -45,6 +46,7 @@ const EditServer = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 1 }}>
+            <NavBar />
             <div className="create-page">
                 <div className="form">
                     <form className="create-form" onSubmit={editServer}>

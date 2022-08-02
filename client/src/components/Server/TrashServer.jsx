@@ -5,10 +5,12 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './StoreServer.css';
 import { motion } from 'framer-motion';
+import NavBar from '../layout/NavBar';
 
 const TrashServer = () => {
     const [server, setServers] = useState([]);
-    let stt =1;
+    const [serverTrah, setServerTrash] = useState('')
+    let stt = 1;
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -28,13 +30,32 @@ const TrashServer = () => {
 
     }, [])
 
+    const handleSearch = async (e) => {
+        e.preventDefault()
+        try {
+            const res = await serverApi.searchTrash(serverTrah)
+            setServers(res);
+            console.log(res);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <motion.div initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 1 }}>
-            <h3>Thùng Rác</h3>
+
+            <NavBar />
+            <h3 style={{marginTop:'90px'}}>Thùng Rác</h3>
             <Link to="/server/storedServer">Danh sách Server</Link>
+
+            <div class="box">
+                <form name="search" onSubmit={handleSearch}>
+                    <input type="text" class="inputsearch" placeholder='Nhập tên Server' value={serverTrah} onmouseout="this.value = ''; this.blur();" onChange={(e) => setServerTrash(e.target.value)} />
+                </form>
+            </div>
             <table class="container">
                 <thead>
                     <tr>

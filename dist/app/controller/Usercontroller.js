@@ -81,11 +81,26 @@ const update = (req, res, next) => {
         console.log(error);
     }
 };
+const search = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield User_1.default.find({ userName: { $regex: req.query.q }, permission: 'user' });
+        if (user) {
+            res.status(200).json(user);
+        }
+        else {
+            res.status(404).json('not found');
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
 exports.default = {
     register,
     deleteUser,
     update,
     updateUser,
-    getallUser
+    getallUser,
+    search
 };
 //# sourceMappingURL=Usercontroller.js.map

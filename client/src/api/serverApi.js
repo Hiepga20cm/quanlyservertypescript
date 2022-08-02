@@ -41,10 +41,17 @@ const serverApi = {
         const url = `/me/trash/server`;
         return axiosClient.get(url);
     },
-    search :async (serverName) =>{
-        const url = `/search/${serverName}`;
+    search: async (serverName) => {
+        const url = `/search?q=${serverName}`;
+        return axiosClient.get(url);
+    },
+    searchTrash: async (serverName) => {
+        const url = `/me/searchTrash?q=${serverName}`;
+        return axiosClient.get(url);
+    },
+    getDetail: async (id) => {
+        const url = `/server/${id}/detail`;
         return axiosClient.get(url);
     }
-
 }
 export default (serverApi);

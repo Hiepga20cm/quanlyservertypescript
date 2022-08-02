@@ -9,8 +9,7 @@ const SiteController_1 = __importDefault(require("../app/controller/SiteControll
 const auth_1 = __importDefault(require("../app/middleware/auth"));
 router.get('/logout', auth_1.default.requireAuth, SiteController_1.default.logout);
 router.get('/', auth_1.default.requireAuth, SiteController_1.default.home);
-router.post('/search', auth_1.default.requireAuth, SiteController_1.default.search);
+router.get('/search', auth_1.default.requireAuth, SiteController_1.default.search);
 router.post('/login', SiteController_1.default.login);
-//router.post('/register', SiteController.register)
 exports.default = router;
 //# sourceMappingURL=site.js.map

@@ -19,7 +19,26 @@ const trashServer = async (req: Request, res: Response, next) => {
         return res.status(400).json(err)
     }
 }
+const searchTrash = async (req: Request, res: Response) => {
+    try {
+        try {
+            const server = await Server.find({ name: { $regex: req.query.q }, deleted: true })
+            if (server) {
+                res.status(200).json(server);
+            } else {
+                res.status(404).json('not found');
+            }
+
+        } catch (error) {
+            res.status(404).json('not found');
+        }
+
+    } catch (error) {
+
+    }
+}
 export default {
     storedServer,
-    trashServer
+    trashServer,
+    searchTrash
 }

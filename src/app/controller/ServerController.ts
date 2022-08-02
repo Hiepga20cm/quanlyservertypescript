@@ -7,14 +7,19 @@ const getAllServer = (req: Request, res: Response) => {
     res.render('home');
 }
 //[get]/show 
-const show = (req: Request, res: Response, next) => {
-    Server.findOne({ name: req.params.name }).lean()
-        .then((server => { server }))
-        .catch(next);
-}
-// [get]/createServer
-const create = (req: Request, res: Response, next) => {
-    res.render('server/create');
+const showDetail = async (req: Request, res: Response) => {
+    try {
+        const detail: any = await Server.findById(req.params.id).lean();
+        if (detail) {
+            console.log(detail);
+            res.status(200).json(detail);
+        } else {
+            res.status(200).json('not found');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 // [post] /server/store
@@ -26,6 +31,7 @@ const store = async (req: Request, res: Response, next) => {
             const server = new Server(formData);// tạo ra một đối tượng kiểu Server và đưa  dữ liệu muốn ghi vào
             server.save()
                 .catch(next);
+            res.status(200).json('success');
         } else {
             res.status(500).json('the name allready exists');
         }
@@ -81,8 +87,7 @@ const deleteindatabase = (req: Request, res: Response, next) => {
 
 export default {
     getAllServer,
-    show,
-    create,
+    showDetail,
     store,
     edit,
     update,

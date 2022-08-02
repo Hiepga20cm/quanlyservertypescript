@@ -10,6 +10,7 @@ router.get('/getUsers', Usercontroller_1.default.getallUser);
 router.post('/register', Usercontroller_1.default.register);
 router.delete('/:id/deleteUser/', Usercontroller_1.default.deleteUser);
 router.get('/:id/updateUser', Usercontroller_1.default.updateUser);
+router.get('/search', Usercontroller_1.default.search);
 router.patch('/:id/update', Usercontroller_1.default.update);
 exports.default = router;
 //# sourceMappingURL=Userct.js.map

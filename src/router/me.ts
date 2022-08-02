@@ -7,7 +7,7 @@ import authMiddleware from '../app/middleware/auth';
 //router.get('/getall',ServerController.getAllServer);
 
 router.get('/stored/server', authMiddleware.requireAuth, MeController.storedServer);
-
 router.get('/trash/server', authorization.requireAuthorization, MeController.trashServer);
+router.get('/searchTrash',authorization.requireAuthorization, MeController.searchTrash);
 
 export default router;

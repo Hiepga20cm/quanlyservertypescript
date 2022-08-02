@@ -18,15 +18,21 @@ const getAllServer = (req, res) => {
     res.render('home');
 };
 //[get]/show 
-const show = (req, res, next) => {
-    Server_1.default.findOne({ name: req.params.name }).lean()
-        .then((server => { server; }))
-        .catch(next);
-};
-// [get]/createServer
-const create = (req, res, next) => {
-    res.render('server/create');
-};
+const showDetail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const detail = yield Server_1.default.findById(req.params.id).lean();
+        if (detail) {
+            console.log(detail);
+            res.status(200).json(detail);
+        }
+        else {
+            res.status(200).json('not found');
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
 // [post] /server/store
 const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -36,6 +42,7 @@ const store = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             const server = new Server_1.default(formData); // tạo ra một đối tượng kiểu Server và đưa  dữ liệu muốn ghi vào
             server.save()
                 .catch(next);
+            res.status(200).json('success');
         }
         else {
             res.status(500).json('the name allready exists');
@@ -86,8 +93,7 @@ const deleteindatabase = (req, res, next) => {
 };
 exports.default = {
     getAllServer,
-    show,
-    create,
+    showDetail,
     store,
     edit,
     update,

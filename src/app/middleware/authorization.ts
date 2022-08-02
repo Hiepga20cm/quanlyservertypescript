@@ -3,6 +3,7 @@ import User from '../model/Entitys/User';
 import { Request, Response } from "express";
 
 const requireAuthorization = function (req: Request, res: Response, next) {
+    
     const token1 = req.headers.authorization.split(" ")[1];
     const token = <any>jwt.verify(token1, '12345678');
     //console.log(token);
